@@ -45,6 +45,20 @@ const Page = () => {
     return <div>Server Down</div>;
   }
 
+  const requestLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setPosition({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      },
+      (error) => {
+        console.error("Location request error:", error);
+      }
+    );
+  };
+
   return (
     <div>
       {!locationPermissionGranted ? (
@@ -54,18 +68,7 @@ const Page = () => {
               This feature requires location access. Please grant permission to
               use this map.
             </p>
-            <Button
-              onClick={() =>
-                navigator.geolocation.getCurrentPosition((position) => {
-                  setPosition({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                  });
-                })
-              }
-            >
-              Enable Location
-            </Button>
+            <Button onClick={() => requestLocation()}>Enable Location</Button>
           </div>
         </div>
       ) : (
