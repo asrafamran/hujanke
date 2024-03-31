@@ -68,7 +68,12 @@ const Page = () => {
               This feature requires location access. Please grant permission to
               use this map.
             </p>
-            <Button onClick={() => requestLocation()}>Enable Location</Button>
+            <Button
+              onClick={() => requestLocation()}
+              onTouchStart={() => requestLocation()}
+            >
+              Enable Location
+            </Button>
           </div>
         </div>
       ) : (
