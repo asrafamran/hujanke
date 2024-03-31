@@ -85,7 +85,7 @@ const Directions = () => {
               <div className="flex justify-center">
                 <div className="w-[80%] flex flex-col">
                   {routes.map((route, index) => (
-                    <DrawerClose>
+                    <DrawerClose key={index}>
                       <Button
                         variant="link"
                         onClick={() => setRouteIndex(index)}
