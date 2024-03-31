@@ -11,7 +11,7 @@ import Directions from "@/app/components/Directions";
 import Search from "@/app/components/Search";
 import { Button } from "@/components/ui/button";
 
-const page = () => {
+const Page = () => {
   const [position, setPosition] = useState({ lat: 46.3, lng: 10 });
   const [locationPermissionGranted, setLocationPermissionGranted] =
     useState(false);
@@ -95,4 +95,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
