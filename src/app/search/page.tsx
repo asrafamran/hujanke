@@ -23,6 +23,10 @@ const Page = () => {
         lat: location.coords.latitude,
         lng: location.coords.longitude,
       });
+      console.log(
+        "Position updated inside handleGeolocationSuccess:",
+        position
+      );
       setLocationPermissionGranted(true); // Update permission status
     };
 
@@ -40,6 +44,10 @@ const Page = () => {
       );
     }
   }, [locationPermissionGranted]); // Re-run effect if permission changes
+
+  useEffect(() => {
+    console.log("Position updated:", position);
+  }, [position]);
 
   if (process.env.NEXT_PUBLIC_MAP_KEY === undefined) {
     return <div>Server Down</div>;
@@ -93,7 +101,7 @@ const Page = () => {
                   glyphColor={"#354f52"}
                 />
               </AdvancedMarker>
-              <Directions />
+              <Directions location={position} />
               <Search />
             </Map>
           </div>

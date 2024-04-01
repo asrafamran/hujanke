@@ -15,7 +15,12 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 
-const Directions = () => {
+interface Location {
+  lat: number;
+  lng: number;
+}
+
+const Directions = ({ location }: { location: Location }) => {
   const map = useMap();
   const routesLibrary = useMapsLibrary("routes");
   const [directionService, setDirectionService] =
@@ -43,9 +48,11 @@ const Directions = () => {
   useEffect(() => {
     if (!directionService || !directionRenderer) return;
 
+    console.log("inilah", location);
+
     directionService
       .route({
-        origin: "Shah Alam, Malaysia",
+        origin: location,
         destination: "Kuala Lumpur, Malaysia",
         travelMode: google.maps.TravelMode.DRIVING,
         provideRouteAlternatives: true,
