@@ -10,11 +10,14 @@ import {
 import Directions from "@/app/components/Directions";
 import Search from "@/app/components/Search";
 import { Button } from "@/components/ui/button";
+import { ChevronLeftIcon } from "@radix-ui/react-icons";
 
 const Page = () => {
   const [position, setPosition] = useState({ lat: 46.3, lng: 10 });
   const [locationPermissionGranted, setLocationPermissionGranted] =
     useState(false);
+  const [destination, setDestination] = useState<string>("");
+  console.log("destination : ", destination);
 
   //   Grant permission for location
   useEffect(() => {
@@ -23,10 +26,6 @@ const Page = () => {
         lat: location.coords.latitude,
         lng: location.coords.longitude,
       });
-      console.log(
-        "Position updated inside handleGeolocationSuccess:",
-        position
-      );
       setLocationPermissionGranted(true); // Update permission status
     };
 
@@ -44,10 +43,6 @@ const Page = () => {
       );
     }
   }, [locationPermissionGranted]); // Re-run effect if permission changes
-
-  useEffect(() => {
-    console.log("Position updated:", position);
-  }, [position]);
 
   if (process.env.NEXT_PUBLIC_MAP_KEY === undefined) {
     return <div>Server Down</div>;
@@ -101,8 +96,8 @@ const Page = () => {
                   glyphColor={"#354f52"}
                 />
               </AdvancedMarker>
-              <Directions location={position} />
-              <Search />
+              <Directions location={position} destination={destination} />
+              <Search setDestination={setDestination} />
             </Map>
           </div>
         </APIProvider>

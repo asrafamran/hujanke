@@ -20,7 +20,15 @@ interface Location {
   lng: number;
 }
 
-const Directions = ({ location }: { location: Location }) => {
+type Function = (message: string) => void;
+
+const Directions = ({
+  location,
+  destination,
+}: {
+  location: Location;
+  destination: string;
+}) => {
   const map = useMap();
   const routesLibrary = useMapsLibrary("routes");
   const [directionService, setDirectionService] =
@@ -33,6 +41,36 @@ const Directions = ({ location }: { location: Location }) => {
   const [routeIndex, setRouteIndex] = useState(0);
   const selected = routes[routeIndex];
   const leg = selected?.legs[0];
+
+  // Debounce
+  function debounce<F extends (...args: any[]) => any>(
+    func: F,
+    delay: number
+  ): (...args: Parameters<F>) => void {
+    let timeoutId: any;
+    return (...args: Parameters<F>) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  }
+
+  const debouncedFunction = debounce<Function>((destination) => {
+    if (!directionService || !directionRenderer) return;
+
+    directionService
+      .route({
+        origin: location,
+        destination: destination,
+        travelMode: google.maps.TravelMode.DRIVING,
+        provideRouteAlternatives: true,
+      })
+      .then((response) => {
+        directionRenderer.setDirections(response);
+        setRoutes(response.routes);
+      });
+  }, 1500);
 
   // initilize library
   useEffect(() => {
@@ -48,12 +86,12 @@ const Directions = ({ location }: { location: Location }) => {
   useEffect(() => {
     if (!directionService || !directionRenderer) return;
 
-    console.log("inilah", location);
+    debouncedFunction(destination)
 
     directionService
       .route({
         origin: location,
-        destination: "Kuala Lumpur, Malaysia",
+        destination: destination,
         travelMode: google.maps.TravelMode.DRIVING,
         provideRouteAlternatives: true,
       })
@@ -63,7 +101,7 @@ const Directions = ({ location }: { location: Location }) => {
       });
 
     return () => {};
-  }, [directionService, directionRenderer]);
+  }, [destination, directionService, directionRenderer]);
 
   // Rerender Map when change direction
   useEffect(() => {
@@ -72,8 +110,6 @@ const Directions = ({ location }: { location: Location }) => {
 
     return () => {};
   }, [routeIndex, directionRenderer]);
-
-  console.log(routes);
 
   if (!leg) return <></>;
 
