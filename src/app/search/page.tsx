@@ -89,13 +89,13 @@ const Page = () => {
               gestureHandling={"cooperative"}
               disableDefaultUI
             >
-              <AdvancedMarker position={position}>
+              {/* <AdvancedMarker position={position}>
                 <Pin
                   background={"#fdc500"}
                   borderColor={"#2f3e46"}
                   glyphColor={"#354f52"}
                 />
-              </AdvancedMarker>
+              </AdvancedMarker> */}
               <Directions location={position} destination={destination} />
               <Search setDestination={setDestination} />
             </Map>

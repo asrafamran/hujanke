@@ -29,7 +29,7 @@ const Search = ({ setDestination }: any) => {
           type="text"
           id="destinationLocation"
           placeholder="Destination Location"
-          className="bg-white"
+          className="bg-white text-base"
           onChange={(e) => setDestination(e.target.value)}
         />
       </div>

@@ -125,13 +125,14 @@ const Directions = ({
               <DrawerHeader>
                 <DrawerTitle>Alternative Route</DrawerTitle>
               </DrawerHeader>
-              <div className="flex justify-center">
-                <div className="w-[80%] flex flex-col">
+              <div className="flex justify-center w-full">
+                <div className="flex flex-col space-y-1">
                   {routes.map((route, index) => (
                     <DrawerClose key={index}>
                       <Button
                         variant="link"
                         onClick={() => setRouteIndex(index)}
+                        className="text-wrap w-full"
                       >
                         {route.summary}
                       </Button>
