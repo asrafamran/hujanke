@@ -52,12 +52,12 @@ const Directions = ({
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
         func(...args);
-      }, delay);
+      }, 500);
     };
   }
 
   const debouncedFunction = debounce<Function>((destination) => {
-    if (!directionService || !directionRenderer) return;
+    if (!directionService || !directionRenderer || !destination) return;
 
     directionService
       .route({
@@ -84,9 +84,9 @@ const Directions = ({
 
   // Route Render
   useEffect(() => {
-    if (!directionService || !directionRenderer) return;
+    if (!directionService || !directionRenderer || !destination) return;
 
-    debouncedFunction(destination)
+    debouncedFunction(destination);
 
     directionService
       .route({
@@ -114,7 +114,7 @@ const Directions = ({
   if (!leg) return <></>;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 flex justify-center items-end my-element">
+    <div className="fixed bottom-0 left-0 right-0 flex items-end justify-center my-element">
       <Drawer>
         <DrawerTrigger>
           <Button>Alternative Routes</Button>
@@ -132,7 +132,7 @@ const Directions = ({
                       <Button
                         variant="link"
                         onClick={() => setRouteIndex(index)}
-                        className="text-wrap w-full"
+                        className="w-full text-wrap"
                       >
                         {route.summary}
                       </Button>

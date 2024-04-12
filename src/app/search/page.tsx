@@ -17,7 +17,6 @@ const Page = () => {
   const [locationPermissionGranted, setLocationPermissionGranted] =
     useState(false);
   const [destination, setDestination] = useState<string>("");
-  console.log("destination : ", destination);
 
   //   Grant permission for location
   useEffect(() => {
@@ -65,7 +64,7 @@ const Page = () => {
   return (
     <div>
       {!locationPermissionGranted ? (
-        <div className=" h-dvh flex justify-center">
+        <div className="flex justify-center h-dvh">
           <div className=" h-full flex flex-col justify-center items-center w-[80%] gap-4">
             <p className="text-center">
               This feature requires location access. Please grant permission to
@@ -81,7 +80,7 @@ const Page = () => {
         </div>
       ) : (
         <APIProvider apiKey={process.env.NEXT_PUBLIC_MAP_KEY}>
-          <div className="h-screen w-full">
+          <div className="w-full h-screen">
             <Map
               defaultCenter={position}
               mapId={process.env.NEXT_PUBLIC_MAP_ID}
@@ -97,7 +96,11 @@ const Page = () => {
                 />
               </AdvancedMarker>
               <Directions location={position} destination={destination} />
-              <Search setDestination={setDestination} />
+              <Search
+                location={position}
+                destination={destination}
+                setDestination={setDestination}
+              />
             </Map>
           </div>
         </APIProvider>
