@@ -90,7 +90,7 @@ const Weather = ({ location, destination }: any) => {
       </div>
       <div>
         Destination: {destination}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ">
           {desWeather && (
             <>
               <p>{desWeather?.weather[0].main} | </p>
